@@ -1,9 +1,9 @@
-Pickable System - Unreal Engine C++
+# Pickable System - Unreal Engine C++
 This project is a fully modular and optimized interaction and item placement system, implemented entirely in C++ within Unreal Engine 5. The main goal is to create a powerful foundation for managing player interactions with world objects, designed to be easily extensible for larger projects.
 
 This system was developed as a test project to solve issues and improve the interaction architecture from the original Evil Chef project.
 
-✨ Key Features
+# ✨ Key Features
 C++ Based Architecture: All core logic is implemented in C++ to provide the highest level of performance and control.
 
 Modular Interaction System: Using base classes (AMasterInteract, AMasterPickable) and an interface (IInteractInterface), adding new types of interactable objects is simple and clean.
@@ -28,7 +28,7 @@ Stacking Prevention: The trace logic is designed to prevent placing items on top
 
 Data-Driven Design: Item properties (like name) are managed through Data Assets to allow for easy modification and addition of new items without changing code.
 
-🚀 How to Use & Setup
+# 🚀 How to Use & Setup
 Create Child Blueprints: Create new Blueprints inheriting from the following C++ classes:
 
 AMasterInteract -> BP_MasterInteract (for simple interactables)
@@ -59,7 +59,7 @@ Ensure your character Blueprint inherits from APickableSystemCharacter.
 
 In the character Blueprint, position the AttachPoint component in front of the camera where you want items to be held.
 
-🏛️ Key C++ Classes
+# 🏛️ Key C++ Classes
 AMasterInteract: The parent class for all interactable objects. Manages the name widget and player overlap detection.
 
 AMasterPickable: Inherits from AMasterInteract and implements the logic for being picked up and attached to the character.
