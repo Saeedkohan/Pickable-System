@@ -9,6 +9,7 @@
 #include "InputActionValue.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include  "MasterInteract/MasterInteract.h"
+#include "MasterInteract/WorkTable.h"
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 //////////////////////////////////////////////////////////////////////////
@@ -156,27 +157,56 @@ void APickableSystemCharacter::SetupPlayerInputComponent(UInputComponent* Player
 }
 
 
+
+
 void APickableSystemCharacter::OnInteract()
 {
+
+	if (!HeldItem)
+	{
+		if (FocusedInteractable)
+		{
+			IInteractInterface::Execute_Interact(FocusedInteractable);
+		}
+		return;
+	}
+
+
+	if (HeldItem)
+	{
 	
-	UE_LOG(LogTemp, Warning, TEXT("Interact key pressed!"));
+		if (!bIsPlacementModeActive)
+		{
+			
+			if (FocusedInteractable && Cast<AWorkTable>(FocusedInteractable))
+			{
+				bIsPlacementModeActive = true;
+				UE_LOG(LogTemp, Warning, TEXT("Placement Mode Activated."));
+			}
+			return; 
+		}
 
 	
-	if (InteractRefrence)
-	{
-	
-		IInteractInterface::Execute_Interact(InteractRefrence);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Interact Reference is Null, not looking at anything."));
+		if (bIsPlacementModeActive)
+		{
+		
+			if (FocusedInteractable && Cast<AWorkTable>(FocusedInteractable))
+			{
+			
+				IInteractInterface::Execute_Interact(FocusedInteractable);
+			}
+
+		
+			bIsPlacementModeActive = false;
+			UE_LOG(LogTemp, Warning, TEXT("Placement Mode Deactivated."));
+		}
 	}
 }
 
 void APickableSystemCharacter::SendInteractReference_Implementation(AActor* InteractActor)
 {
 
-	this->InteractRefrence = Cast<AMasterInteract>(InteractActor);
+	this->FocusedInteractable = Cast<AMasterInteract>(InteractActor);
 }
 
 void APickableSystemCharacter::SetHeldItem(AMasterPickable* NewItem)

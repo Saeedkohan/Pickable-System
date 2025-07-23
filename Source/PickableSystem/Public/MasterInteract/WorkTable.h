@@ -35,12 +35,25 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, Category = "Config | Ghost Mesh")
+	UMaterialInterface* ValidPlacementMaterial;
+
+
+	UPROPERTY(EditAnywhere, Category = "Config | Ghost Mesh")
+	UMaterialInterface* InvalidPlacementMaterial;
+
 private:
 
-	void TraceForPlacement();
 
 
-	void UpdateGhostMesh(bool IsVisible);
+	void UpdateGhostMesh(bool bShouldBeVisible, bool bIsLocationValid);
+
+
+	// void TraceForPlacement();
+
+	bool TraceForPlacement();
+	
+	void UpdateGhostMesh(bool bIsLocationValid);
 
 	FVector ImpactPoint;
 

@@ -26,7 +26,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
  *  A basic first person character
  */
 UCLASS(abstract)
-class APickableSystemCharacter : public ACharacter,public IInteractInterface
+class APickableSystemCharacter : public ACharacter, public IInteractInterface
 {
 	GENERATED_BODY()
 
@@ -42,7 +42,6 @@ class APickableSystemCharacter : public ACharacter,public IInteractInterface
 	UArrowComponent* AttachPoint;
 
 protected:
-
 	/** Jump Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category ="Input")
 	UInputAction* JumpAction;
@@ -60,23 +59,28 @@ protected:
 	class UInputAction* MouseLookAction;
 
 
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category ="Interaction")
-	AMasterInteract* InteractRefrence;
+	// UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category ="Interaction")
+	// AMasterInteract* InteractRefrence;
 
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category ="Interaction")
+	AMasterInteract* FocusedInteractable;
+	
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Interaction")
 	AMasterPickable* HeldItem;
 
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	void OnInteract();
-	
+
 public:
 	APickableSystemCharacter();
-	
+
 	UArrowComponent* GetAttachPoint() const { return AttachPoint; }
 	AMasterPickable* GetHeldItem() const { return HeldItem; }
-protected:
 
+	bool IsInPlacementMode() const { return bIsPlacementModeActive; }
+
+protected:
 	/** Called from Input Actions for movement input */
 	void MoveInput(const FInputActionValue& Value);
 
@@ -99,14 +103,14 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
 
-protected:
+	bool bIsPlacementModeActive = false;
 
+protected:
 	/** Set up input action bindings */
 	// virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
-	
+
 
 public:
-
 	/** Returns the first person mesh **/
 	USkeletalMeshComponent* GetFirstPersonMesh() const { return FirstPersonMesh; }
 
@@ -116,4 +120,3 @@ public:
 	virtual void SendInteractReference_Implementation(AActor* InteractActor) override;
 	void SetHeldItem(AMasterPickable* NewItem);
 };
-

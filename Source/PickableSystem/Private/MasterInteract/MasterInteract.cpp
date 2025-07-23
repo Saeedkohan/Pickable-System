@@ -75,7 +75,7 @@ void AMasterInteract::Tick(float DeltaTime)
 
 		float DotProduct = FVector::DotProduct(PlayerToActorDir, PlayerForwardDir);
 
-		if (DotProduct > 0.95f) 
+		if (DotProduct > 0.8f) 
 		{
 			if (!bIsFocused) 
 			{
